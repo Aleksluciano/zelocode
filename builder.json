@@ -1,0 +1,6 @@
+{ "win":
+  {
+    "title": "Zelo",
+    "icon": "dist/myico.ico",
+    "version": "1.0.0",
+    "publisher": "Alex Avelar" } }

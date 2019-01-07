@@ -1,0 +1,31 @@
+.inline {
+  display: inline-block;
+}
+
+.box {
+  display: flex;
+}
+
+.one {
+  flex: 1 1 auto;
+
+
+}
+
+.centerOne{
+margin-left: 5%;
+}
+
+
+.two {
+  text-align: center;
+  background-color: pink;
+  align-content: center;
+  align-items: center;
+  width: 30%;
+
+}
+
+table, th, td {
+  border: 1px solid black;
+}

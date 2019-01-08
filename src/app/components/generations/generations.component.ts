@@ -491,7 +491,7 @@ export class GenerationsComponent implements OnInit {
         let acha = this.totalContador.findIndex(a => l.user == a.user);
         if (acha !== -1) {
           this.totalContador[acha].count++;
-        } else {
+        } else if(l.user){
           let oi = {
             user: l.user,
             count: 1

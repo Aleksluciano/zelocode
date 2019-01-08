@@ -11,6 +11,11 @@
     "directories": {
         "output": "dist/release",
         "buildResources": "dist"
+      },
+      "win": {
+        "certificateFile": "private/alexavelar.pfx",
+        "verifyUpdateCodeSignature": false,
+        "publisherName": "alexavelar"
       }
     },
   "scripts": {
@@ -23,10 +28,12 @@
     "electron": "ng build --base-href ./ && electron .",
     "electron-aot": "ng build --prod && electron .",
     "pack": "electron-builder --dir",
+    "win": "electron-builder -w",
     "dist": "electron-builder",
     "postinstall": "electron-builder install-app-deps",
     "package-win": "electron-packager . zelo --overwrite --platform win32 --arch x64 --out=release-builds",
-    "setup": "electron-installer-windows --src dist/zelo-win32-x64/ --dest dist/installers/"
+    "setup": "electron-installer-windows --src dist/zelo-win32-x64/ --dest dist/installers/",
+    "make-cert": "electron-builder create-self-signed-cert -p alexavelar"
   },
   "private": true,
   "dependencies": {

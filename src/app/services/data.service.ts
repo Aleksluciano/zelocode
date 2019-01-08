@@ -55,7 +55,7 @@ export class DataService {
 
         nSQL("dayprivileges")
         .model([
-          { key: "namedayprivileges", type: "string", props: ["pk"] },
+          { key: "namedayprivileges", type: "string",  props: ["pk"] },
           { key: "nameday", type: "string"},
           { key: "rank", type: "string"},
           { key: "nameprivilege", type: "string"},
@@ -69,7 +69,7 @@ export class DataService {
         .model([
           { key: "nameuserprivileges", type: "string", props: ["pk"] },
           { key: "nameuser", type: "string"},
-          { key: "rank", type: "string"},
+          { key: "rank", type: "string",},
           { key: "nameprivilege", type: "string"},
           { key: "checked", type: "boolean"},
           { key: "date", type: "date"}
@@ -195,7 +195,7 @@ deletePrivilege(rank: string) {
 /////////////////////////////////////////////////
 addDayPrivilege(day: string, rank: string, privilege: string, checked: boolean) {
   return nSQL(this.dbdayprivileges)
-    .query("upsert", { namedayprivileges: day + privilege, nameday: day, rank: rank, nameprivilege: privilege, checked: checked  })
+    .query("upsert", { namedayprivileges: day + privilege + rank, nameday: day, rank: rank, nameprivilege: privilege, checked: checked  })
     .exec();
 }
 
@@ -210,7 +210,7 @@ getAllDayPrivilegesExec() {
 addUserPrivilege(username: string, privilegename: string, checked: boolean, date: Date, rank: string) {
 
   return nSQL(this.dbuserprivileges)
-    .query("upsert", { nameuserprivileges: username + privilegename, nameuser: username, nameprivilege: privilegename, checked: checked, date: date, rank: rank })
+    .query("upsert", { nameuserprivileges: username + privilegename + rank, nameuser: username, nameprivilege: privilegename, checked: checked, date: date, rank: rank })
     .exec();
 }
 

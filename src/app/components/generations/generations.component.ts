@@ -210,7 +210,7 @@ export class GenerationsComponent implements OnInit {
       this.dayprivileges = result as DayPrivileges[];
 
       this.dayprivileges.sort((a, b) => {
-        if (a.rank < b.rank) return -1;
+        if (a.nameprivilege < b.nameprivilege) return -1;
         else return 1;
       });
 

@@ -14,6 +14,8 @@ export class DataService {
   dbdayprivileges = "dayprivileges";
   dbuserprivileges = "userprivileges";
   dbgenerations = "generations";
+  dbexceptions = "exceptions";
+  dbuserexceptions = "userexceptions";
 
   constructor() {
     if (!this.initialized) {
@@ -53,6 +55,14 @@ export class DataService {
           history: true
         });
 
+        nSQL("exceptions")
+        .model([
+          { key: "name", type: "string", props: ["pk"] }])
+        .config({
+          mode: "PERM",
+          history: true
+        });
+
         nSQL("dayprivileges")
         .model([
           { key: "namedayprivileges", type: "string",  props: ["pk"] },
@@ -71,6 +81,19 @@ export class DataService {
           { key: "nameuser", type: "string"},
           { key: "rank", type: "string",},
           { key: "nameprivilege", type: "string"},
+          { key: "checked", type: "boolean"},
+          { key: "date", type: "date"}
+        ])
+        .config({
+          mode: "PERM",
+          history: true
+        });
+
+        nSQL("userexceptions")
+        .model([
+          { key: "nameuserexceptions", type: "string", props: ["pk"] },
+          { key: "nameuser", type: "string"},
+          { key: "nameexception", type: "string"},
           { key: "checked", type: "boolean"},
           { key: "date", type: "date"}
         ])
@@ -149,7 +172,14 @@ getAllUsersExec() {
         .where(["nameuser", "=", name])
         .exec();
 
+        nSQL(this.dbuserexceptions)
+        .query("delete")
+        .where(["nameuser", "=", name])
+        .exec();
+
       }))
+
+
   }
 /////////////////////////////////////Privileges
 getAllPrivilegesExec() {
@@ -192,6 +222,46 @@ deletePrivilege(rank: string) {
 
     }))
 }
+
+/////////////////////////////////////////////////
+getAllExceptionsExec() {
+
+  return nSQL(this.dbexceptions)
+    .query("select")
+    .exec()
+
+}
+
+getAllExceptions() {
+return nSQL(this.dbexceptions).observable(() =>
+  nSQL(this.dbexceptions)
+    .query("select")
+    .emit()
+);
+}
+
+addException(name: string) {
+return nSQL(this.dbexceptions)
+  .query("upsert", { name: name })
+  .exec();
+}
+
+deleteException(name: string) {
+return nSQL(this.dbexceptions)
+  .query("delete")
+  .where(["name", "=", name])
+  .exec().then((r=>{
+
+    nSQL(this.dbuserexceptions)
+    .query("delete")
+    .where(["nameexception", "=", name])
+    .exec();
+
+
+  }))
+}
+
+
 /////////////////////////////////////////////////
 addDayPrivilege(day: string, rank: string, privilege: string, checked: boolean) {
   return nSQL(this.dbdayprivileges)
@@ -206,6 +276,24 @@ getAllDayPrivilegesExec() {
     .exec()
 
 }
+////////////////////////////////////////////////////////
+addUserException(username: string, exceptionname: string, checked: boolean, date: Date) {
+
+  return nSQL(this.dbuserexceptions)
+    .query("upsert", { nameuserexceptions: username + exceptionname, nameuser: username, nameexception: exceptionname, checked: checked, date: date})
+    .exec();
+}
+
+
+
+getAllUserExceptionsExec() {
+
+  return nSQL(this.dbuserexceptions)
+    .query("select")
+    .exec()
+
+}
+
 /////////////////////////////////////////////////////////////
 addUserPrivilege(username: string, privilegename: string, checked: boolean, date: Date, rank: string) {
 
@@ -252,12 +340,14 @@ deleteGeneration(ini: Date, fim: Date) {
 
 deleteAll(){
 
-  nSQL("generations").query("drop").exec()
-  nSQL("days").query("drop").exec()
-  nSQL("users").query("drop").exec()
-  nSQL("privileges").query("drop").exec()
-  nSQL("dayprivileges").query("drop").exec()
-  nSQL("userprivileges").query("drop").exec()
+  nSQL(this.dbgenerations).query("drop").exec()
+  nSQL(this.dbdays).query("drop").exec()
+  nSQL(this.dbusers).query("drop").exec()
+  nSQL(this.dbprivileges).query("drop").exec()
+  nSQL(this.dbdayprivileges).query("drop").exec()
+  nSQL(this.dbuserprivileges).query("drop").exec()
+  nSQL(this.dbexceptions).query("drop").exec()
+  nSQL(this.dbuserexceptions).query("drop").exec()
 
 }
 

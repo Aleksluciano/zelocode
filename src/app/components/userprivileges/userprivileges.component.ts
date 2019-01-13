@@ -1,12 +1,11 @@
-import { UserPrivileges } from "./../userprivileges.model";
+import { UserPrivileges } from "./userprivileges.model";
 import {  DateAdapter
 } from "@angular/material";
-import { User } from "./../../users/user.model";
-import { ChangeDetectorRef } from "@angular/core";
-import { DataService } from "./../../../services/data.service";
+import { User } from "../users/user.model";
+import { DataService } from "../../services/data.service";
 import { Component, OnInit } from "@angular/core";
-import { Privilege } from "../../privileges/privilege.model";
-import { DateFormat } from "../../date.format";
+import { Privilege } from "../privileges/privilege.model";
+import { DateFormat } from "../date.format";
 
 @Component({
   selector: "app-userusers",

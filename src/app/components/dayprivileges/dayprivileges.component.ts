@@ -1,12 +1,9 @@
-import { MatCheckboxModule } from '@angular/material';
 import { DayPrivileges } from './dayprivileges.model';
-import { Privilege } from './../../privileges/privilege.model';
-import { ListUserComponent } from './../../users/list-user/list-user.component';
-import { ChangeDetectorRef } from '@angular/core';
-import { WeekDay } from './../../weekdays/weekday.model';
-import { DataService } from './../../../services/data.service';
+import { Privilege } from '../privileges/privilege.model';
+import { WeekDay } from '../weekdays/weekday.model';
+import { DataService } from '../../services/data.service';
 import { Component, OnInit } from '@angular/core';
-import { findLast } from '@angular/compiler/src/directive_resolver';
+
 
 
 @Component({
@@ -21,11 +18,6 @@ import { findLast } from '@angular/compiler/src/directive_resolver';
   <div  *ngFor="let priv of day.privileges">
   <mat-checkbox [checked]="findIfChecked(day.nameDay, priv.name, priv.rank)" (change)="onSaveCheck(day.nameDay, priv.rank,priv.name, $event)">{{ priv.name }}</mat-checkbox> </div>
   </div>
-
-
-
-
-
 
   `
 
@@ -44,8 +36,7 @@ export class DayprivilegesComponent implements OnInit {
 
   dataSource = [];
 
-  constructor(private dataService: DataService,
-    private cd: ChangeDetectorRef) { }
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
 
